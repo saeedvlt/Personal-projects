@@ -1,0 +1,29 @@
+import pandas as pd
+import numpy as np
+import csv
+
+#the class gets a csv file with peer values horizontally and vertically, and returns distinct non-null values as an excel file
+
+class dist_values:
+
+    def __init__(self, filename):
+        self.filename = filename
+    
+    def usernames(self):
+        users = pd.read_csv(self.filename, header=None)
+        total_rows = users.shape[0] - 1
+        row_num=0
+        first_row = users.iloc[0, :]
+        dist_val=[]
+
+        while row_num != total_rows:
+            for i in first_row:
+                if type(i) is not float and type(i) is not np.float64:
+                    if i not in dist_val:
+                        dist_val.append(i)
+            row_num= row_num + 1
+            first_row = users.iloc[row_num, :]
+        df=pd.DataFrame(dist_val)    
+        df.to_excel("output.xlsx")
+        print(df)
+
